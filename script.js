@@ -36,7 +36,10 @@ const alert = document.getElementById('alert');
 form.addEventListener('submit', (e) => {
   e.preventDefault();
 
-  questions.forEach((q) => q.classList.add('incorrect'));
+  questions.forEach((q) => {
+    q.classList.add('incorrect');
+    q.classList.remove('correct');
+  });
 
   const arrAnswerInputs = Array.from(answerInputs);
   const selectedAnswers = arrAnswerInputs.filter((a) => a.checked === true);
@@ -49,8 +52,12 @@ form.addEventListener('submit', (e) => {
       question.classList.add('correct');
     }
   });
+
+  const allAnswered = selectedAnswers.length === questions.length;
+
   const allCorrect = selectedAnswers.every((a) => a.value === 'true');
-  if (allCorrect === true) {
+
+  if (allCorrect && allAnswered) {
     alert.classList.add('active');
     setTimeout(() => {
       alert.classList.remove('active');
